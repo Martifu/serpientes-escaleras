@@ -163,9 +163,10 @@ def main():
 
     posicion1=0
     posicion2=0
-    
-    jugador1 = Jugador(pantalla,posiciones,0,blanco)
-    jugador2 = Jugador(pantalla,posiciones,0,color_texto)
+    anterior1 = 0
+    anterior2 = 0
+    jugador1 = Jugador(pantalla,posiciones,0,blanco,anterior1)
+    jugador2 = Jugador(pantalla,posiciones,0,color_texto,anterior1)
     dadoImg = Dados(pantalla,dados,0,0)
     turno = 1
     while not game_over:
@@ -185,21 +186,24 @@ def main():
             if turno == 1:
                 dado1 = random.randrange(1,7)
                 dado2 = random.randrange(1,7)
+                anterior1= posicion1
                 posicion1 = posicion1 + dado1+dado2
                 dadoImg = Dados(pantalla,dados,dado1,dado2)
-                jugador1 = Jugador(pantalla,posiciones,posicion1,blanco)
+                jugador1 = Jugador(pantalla,posiciones,posicion1,blanco,anterior1)
                 turno = 0
                 
             else:
                 dado1 = random.randrange(1,7)
                 dado2 = random.randrange(1,7)
+                anterior2 = posicion2
                 posicion2 = posicion2+ dado1+dado2
                 dadoImg = Dados(pantalla,dados,dado1,dado2)
-                jugador2 = Jugador(pantalla,posiciones,posicion2,color_texto)
+                jugador2 = Jugador(pantalla,posiciones,posicion2,color_texto,anterior2)
                 turno = 1
                 
             
             click = False
+        
         pantalla.fill(fondo)
         dibujar_panel()
         dibujar_tablero()
