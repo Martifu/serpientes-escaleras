@@ -8,6 +8,63 @@ import time
 fondo = (204,204,0)
 blanco = (0,0,0)
 color_texto = (50,60,80)
+jugadores = 0
+
+
+def dibujar_botones_menu(lista_botones):
+    for boton in lista_botones:
+        if boton['on_click']:
+            pantalla.blit(boton['imagen_pressed'], boton['rect'])
+        else:
+            pantalla.blit(boton['imagen'], boton['rect'])
+
+def menu():
+    menu = pygame.display.set_mode((1270, 720))
+    otra_pantalla = True
+    while otra_pantalla:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.k_1:
+                    otra_pantalla = False
+            if event.type == QUIT:
+                pygame.quit()
+            if event.type == MOUSEBUTTONDOWN:
+                mouse = event.pos
+                for boton in botones:
+                    boton['on_click'] = boton['rect'].colliderect([mouse[0], mouse[1], 1, 1])
+                    if boton['on_click'] == True:
+                        jugadores = boton['jugadores']
+                        main.jugadores = jugadores
+                    elif boton['on_click'] == True:
+                        jugadores = boton['jugadores']
+                        main.jugadores = jugadores
+                    elif boton['on_click'] == True:
+                        jugadores = boton['jugadores']
+                        main.jugadores = jugadores
+                otra_pantalla = False
+        rect_boton_1 = jugador2.get_rect()
+        rect_boton_2 = jugador3.get_rect()
+        rect_boton_3 = jugador4.get_rect()
+        botones = []
+        rect_boton_1.topleft = [300, 150]
+        rect_boton_2.topleft = [300, 300]
+        rect_boton_3.topleft = [300, 450]
+        botones.append(
+            {'texto': "Nuevo número", 'imagen': jugador2, 'imagen_pressed': jugador2,
+             'rect': rect_boton_1,
+             'on_click': True, 'jugadores':2},)
+        botones.append(
+            {'texto': "Nuevo número", 'imagen': jugador3, 'imagen_pressed': jugador3,
+             'rect': rect_boton_2,
+             'on_click': True, 'jugadores':3}, )
+        botones.append(
+            {'texto': "Nuevo número", 'imagen': jugador4, 'imagen_pressed': jugador4,
+             'rect': rect_boton_3,
+             'on_click': True, 'jugadores':4}, )
+        pygame.display.flip()
+        menu.fill(blanco)
+        dibujar_botones_menu(botones)
+        pygame.display.update()
 
 def dibujar_panel():
     panel = pygame.transform.scale(imagen_panel, [1280,700])
@@ -26,12 +83,39 @@ def dibujar_tablero():
 
 def informacion(turno):
     fuente = pygame.font.Font(None, 30)
-    if turno == 0:
-        jugador = fuente.render("Turno del jugador: Player 1", 0, (0, 0, 0))
-        pantalla.blit(jugador, (90, 200))
-    if turno == 1:
-        jugador = fuente.render("Turno del jugador: Player 2", 0, (0, 0, 0))
-        pantalla.blit(jugador, (90, 200))
+    totaljugadores = fuente.render("total de jugadores" + str(main.jugadores), 0, (0, 0, 0))
+    pantalla.blit(totaljugadores, (90, 300))
+    if main.jugadores == 2:
+        if turno == 0:
+            jugador = fuente.render("Turno del jugador: Player 1", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 1:
+            jugador = fuente.render("Turno del jugador: Player 2", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+    if main.jugadores  == 3:
+        if turno == 0:
+            jugador = fuente.render("Turno del jugador: Player 1", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 1:
+            jugador = fuente.render("Turno del jugador: Player 2", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 2:
+            jugador = fuente.render("Turno del jugador: Player 3", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+    if main.jugadores  == 4:
+        if turno == 0:
+            jugador = fuente.render("Turno del jugador: Player 1", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 1:
+            jugador = fuente.render("Turno del jugador: Player 2", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 2:
+            jugador = fuente.render("Turno del jugador: Player 3", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+        if turno == 4:
+            jugador = fuente.render("Turno del jugador: Player 4", 0, (0, 0, 0))
+            pantalla.blit(jugador, (90, 200))
+
 
  
 def main():
@@ -157,7 +241,7 @@ def main():
         [520,90], #casilla 99
         [450,90], #casilla 100
     ]
-
+    menu()
     x=350
     y=625
 
@@ -182,7 +266,7 @@ def main():
                 for boton in botones:
                     boton['on_click'] = False
         
-        if click :
+        if click:
             if turno == 1:
                 dado1 = random.randrange(1,7)
                 dado2 = random.randrange(1,7)
@@ -229,6 +313,9 @@ imagen_panel = pygame.image.load("img/fondo.jpg")
 imagen_tablero = pygame.image.load('img/tablero.jpg')
 imagen_boton = pygame.image.load("img/pressed.png")
 imagen_boton_pressed = pygame.image.load("img/unpressed.png")
+jugador2 = pygame.image.load('img/jugador2.png')
+jugador3 = pygame.image.load('img/jugador3.png')
+jugador4 = pygame.image.load('img/jugador4.png')
 
 inicio = pygame.image.load("img/dados/inicio.png")
 dado1 = pygame.image.load("img/dados/1.png")
